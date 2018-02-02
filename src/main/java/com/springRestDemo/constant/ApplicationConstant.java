@@ -11,4 +11,9 @@ public class ApplicationConstant {
     private static final String API_URL = "http://localhost:8181";
     public static final String REST_API_URL = API_URL + "/rest/api";
     public static final String REST_API_LOGIN_URL = REST_API_URL + "/login";
+
+    public static final String ONE_LENGTH_STRING = " ";
+    public static final String FOUR_LENGTH_STRING = "    ";
+
+
 }
