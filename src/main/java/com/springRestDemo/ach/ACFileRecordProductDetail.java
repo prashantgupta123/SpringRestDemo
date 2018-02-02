@@ -1,5 +1,7 @@
 package com.springRestDemo.ach;
 
+import org.springframework.util.StringUtils;
+
 // 1006
 public class ACFileRecordProductDetail extends ACRecord {
 
@@ -40,6 +42,16 @@ public class ACFileRecordProductDetail extends ACRecord {
         rebateIndicator.setValue(record);
         rebateAmountNet.setValue(record);
         customerIDOrSubAccountNumber.setValue(record);
+        examineValue();
+    }
+
+    private void examineValue() {
+        if (creditOrDebit.getValue() != null && !StringUtils.isEmpty(creditOrDebit.getValue())) {
+            CreditDebitEnum creditDebitEnum = CreditDebitEnum.findByCurrencyIndicator(creditOrDebit.getValue());
+            if (creditDebitEnum == null) {
+                creditOrDebit.setValue("");
+            }
+        }
     }
 
     public ACRecordStartEndLength<Integer> getTransactionIdentifier() {

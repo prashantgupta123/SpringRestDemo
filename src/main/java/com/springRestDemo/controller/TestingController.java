@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -19,13 +20,13 @@ import java.util.Map;
 public class TestingController {
 
     @Autowired
-    TestingService testingService;
+    private TestingService testingService;
 
     @RequestMapping(value = "/test", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public HttpEntity<AbstractResponseDto> home() {
+    public HttpEntity<AbstractResponseDto> home(@RequestParam String filename) {
         ACFile parseFileData = new ACFile();
         try {
-            parseFileData = testingService.parseFile("/home/ttn/Downloads/AC/QI127.QI127.AC00029.07302017.02514327");
+            parseFileData = testingService.parseFile(filename);
         } catch (Exception e) {
             System.out.println("Exception in parsing file");
         }

@@ -1,5 +1,7 @@
 package com.springRestDemo.ach;
 
+import org.springframework.util.StringUtils;
+
 // 9999
 public class ACFileTrailer extends ACRecord {
 
@@ -24,6 +26,22 @@ public class ACFileTrailer extends ACRecord {
         usdBaseBillingCurrencyIndicator.setValue(record);
         nonUsdBaseBillingCurrency.setValue(record);
         nonUsdBaseBillingCurrencyIndicator.setValue(record);
+        examineValue();
+    }
+
+    private void examineValue() {
+        if (usdBaseBillingCurrencyIndicator.getValue() != null || !StringUtils.isEmpty(usdBaseBillingCurrencyIndicator.getValue())) {
+            CreditDebitEnum creditDebitEnum = CreditDebitEnum.findByCurrencyIndicator(usdBaseBillingCurrencyIndicator.getValue());
+            if (creditDebitEnum == null) {
+                usdBaseBillingCurrencyIndicator.setValue("");
+            }
+        }
+        if (nonUsdBaseBillingCurrencyIndicator.getValue() != null || !StringUtils.isEmpty(nonUsdBaseBillingCurrencyIndicator.getValue())) {
+            CreditDebitEnum creditDebitEnum = CreditDebitEnum.findByCurrencyIndicator(nonUsdBaseBillingCurrencyIndicator.getValue());
+            if (creditDebitEnum == null) {
+                nonUsdBaseBillingCurrencyIndicator.setValue("");
+            }
+        }
     }
 
     public ACRecordStartEndLength<Integer> getTransactionCount() {

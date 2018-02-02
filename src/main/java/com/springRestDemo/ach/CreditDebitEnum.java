@@ -1,12 +1,29 @@
 package com.springRestDemo.ach;
 
 public enum CreditDebitEnum {
-    credit("C"),
-    debit("D");
+    CREDIT("C"),
+    DEBIT("D");
 
-    String val;
+    String value;
 
-    CreditDebitEnum(String val) {
-        this.val = val;
+    CreditDebitEnum(String value) {
+        this.value = value;
+    }
+
+    public static CreditDebitEnum findByCurrencyIndicator(String val) {
+        for (CreditDebitEnum v : values()) {
+            if (v.getValue().equals(val)) {
+                return v;
+            }
+        }
+        return null;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 }

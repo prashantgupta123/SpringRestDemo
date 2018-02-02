@@ -40,7 +40,7 @@ public class TestingService {
         try {
             String record = achReader.readLine();
             List<ACFileRecord> fileRecords = new ArrayList<>();
-            ACFileRecord acFileRecord = null;
+            ACFileRecord acFileRecord = new ACFileRecord();
             int count = 1;
             int numberOfRecord = 4;
             while (record != null) {
@@ -48,38 +48,26 @@ public class TestingService {
 
                 if (achRecord.isFileHeaderType()) {
                     acFile.setFileHeader((ACFileHeader) ACRecord.parseACRecord(achRecord, record));
-                }
-                if (achRecord.isFileTrailerType()) {
+                } else if (achRecord.isFileTrailerType()) {
                     acFile.setFileTrailer((ACFileTrailer) ACRecord.parseACRecord(achRecord, record));
-                }
-
-                if (count <= numberOfRecord) {
-                    if (acFileRecord == null) {
-                        acFileRecord = new ACFileRecord();
-                    }
-
-                    if (achRecord.isFileSummaryType() && count == 1) {
-                        count++;
-                        acFileRecord.setFileRecordSummaries((ACFileRecordSummary) ACRecord.parseACRecord(achRecord, record));
-                    }
-                    if (achRecord.isFileMerchantType() && count == 2) {
-                        count++;
-                        acFileRecord.setFileRecordMerchants((ACFileRecordMerchant) ACRecord.parseACRecord(achRecord, record));
-                    }
-                    if (achRecord.isFileCardVehicleType() && count == 3) {
-                        count++;
-                        acFileRecord.setFileRecordCardVehicles((ACFileRecordCardVehicle) ACRecord.parseACRecord(achRecord, record));
-                    }
-                    if (achRecord.isFileProductDetailType() && count == 4) {
-                        count++;
-                        acFileRecord.setFileRecordProductDetail((ACFileRecordProductDetail) ACRecord.parseACRecord(achRecord, record));
-                    }
+                } else if (achRecord.isFileSummaryType() && count == 1) {
+                    count++;
+                    acFileRecord.setFileRecordSummaries((ACFileRecordSummary) ACRecord.parseACRecord(achRecord, record));
+                } else if (achRecord.isFileMerchantType() && count == 2) {
+                    count++;
+                    acFileRecord.setFileRecordMerchants((ACFileRecordMerchant) ACRecord.parseACRecord(achRecord, record));
+                } else if (achRecord.isFileCardVehicleType() && count == 3) {
+                    count++;
+                    acFileRecord.setFileRecordCardVehicles((ACFileRecordCardVehicle) ACRecord.parseACRecord(achRecord, record));
+                } else if (achRecord.isFileProductDetailType() && count == 4) {
+                    count++;
+                    acFileRecord.setFileRecordProductDetail((ACFileRecordProductDetail) ACRecord.parseACRecord(achRecord, record));
                 }
 
                 if (count > numberOfRecord) {
                     fileRecords.add(acFileRecord);
                     count = 1;
-                    acFileRecord = null;
+                    acFileRecord = new ACFileRecord();
                 }
 
                 record = achReader.readLine();
